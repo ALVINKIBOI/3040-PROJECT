@@ -13,6 +13,7 @@ import java.sql.Statement;
  *
  * @author kiboi
  */
+    
 public class TestConnection {
     
     public static void main(String[] args) {
@@ -26,12 +27,28 @@ public class TestConnection {
                 System.out.println("DataBaseVersion" + metaData.getDatabaseProductVersion());
                 System.out.println("URL" + metaData.getURL());
                 
+                //First Query
                 Statement st = cn.createStatement();
                 ResultSet rs = st.executeQuery("SELECT DATABASE()");
                 
                 if (rs.next()){
                     System.out.println("DataBase Name:" + rs.getString(1));
                 }
+                              
+                //2nd Query
+                String Sql = "Show Tables";
+                
+                Statement statement = cn.createStatement();
+                ResultSet rt = st.executeQuery(Sql);
+                
+                System.out.println("Tables");
+                while (rt.next()) { 
+                    System.out.println(rt.getString(1));
+            
+                }
+                  
+                rt.close();
+                statement.close();
                 rs.close();
                 st.close();
                 cn.close();
@@ -46,6 +63,8 @@ public class TestConnection {
             System.out.println("Unable to cpnnect to database");
             
         }
+         
+
     }
     
 }
