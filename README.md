@@ -1,13 +1,10 @@
 # Lost and Found System - USIU Africa
-
 ## Project Overview
 
 The **Lost and Found System** is a centralized platform designed for USIU Africa students and staff to report lost and found items, identify possible matches, claim belongings, and have administrators verify ownership. The system streamlines the process of recovering lost items through a structured workflow involving reporting, matching, claiming, and administration.
 
 ---
-
 ## Technology Stack
-
 - **Language**: Java (JDK 17+)
 - **Build Tool**: Apache Ant (configured via `build.xml`)
 - **GUI**: Java Swing (desktop application)
@@ -16,9 +13,7 @@ The **Lost and Found System** is a centralized platform designed for USIU Africa
 - **Project Structure**: Default NetBeans convention with source files under `src/`
 
 ---
-
 ## Existing Architecture
-
 ### Package Structure
 
 ```
@@ -73,7 +68,6 @@ src/
 | `StaffMember` / `Student` / `Administrator` | Role-specific subclasses of `User`. |
 
 ### Key Workflows
-
 1. **Reporting**: A student reports a lost or found item via the GUI. The item is stored with category, location, and status.
 2. **Matching**: The system identifies potential matches between lost and found items based on category, location, and other attributes. Matches are scored (0-100%).
 3. **Claiming**: When a match is identified, the claimant can submit a claim with answers to the verification question (for found items) and proof description.
@@ -81,7 +75,6 @@ src/
 5. **Notification**: Users receive notifications about claim status updates.
 
 ### Database
-
 - **Connection**: `DataBaseConnection.java` configures JDBC connection to MySQL at `jdbc:mysql://localhost/LOSTANDFOUNDSYSTEM` with `root`/`""` credentials.
 - **DAO Layer**: Currently empty (`ItemDAO`, `CategoryDAO`, `UserDAO`, `ClaimDAO`). These need to be implemented for database operations (CRUD, matching queries, claim management).
 - **TestConnection**: Verifies database connectivity and lists existing tables.
@@ -92,20 +85,7 @@ src/
 - Additional GUI frames will be needed for: item reporting, item search/matching, claim submission, administrator dashboard, and user profile management.
 
 ---
-
-## Current Status
-
-✅ **Models**: Fully implemented with domain logic  
-✅ **Database Connection**: JDBC configured and testable  
-❌ **DAO Implementation**: Empty - needs MySQL table creation and CRUD methods  
-❌ **Controller Logic**: Empty - needs business logic implementation  
-❌ **GUI Development**: Only login frame exists - additional frames needed  
-❌ **Database Schema**: Tables need to be created in MySQL  
-
----
-
 ## Setup & Running Instructions
-
 ### Prerequisites
 
 - JDK 17 or higher
@@ -114,7 +94,6 @@ src/
 - MySQL JDBC Driver (connector/j)
 
 ### 1. Database Setup
-
 1. Start MySQL server
 2. Create the database:
    ```sql
@@ -128,7 +107,6 @@ src/
    ```
 
 ### 2. Test Database Connection
-
 ```bash
 cd 3040-PROJECT
 javac src/Database/TestConnection.java
@@ -136,7 +114,6 @@ java -cp src Database.TestConnection
 ```
 
 ### 3. Build & Run
-
 Using Ant:
 ```bash
 ant run
@@ -145,49 +122,10 @@ ant run
 Or using NetBeans IDE: Open the project (`build.xml`) and use the "Run" target.
 
 ---
-
-## Future Implementation Plan
-
-### Phase 1: DAO Implementation
-- Implement `UserDAO` - user authentication, profile management
-- Implement `ItemDAO` - item reporting, search, retrieval
-- Implement `CategoryDAO` - category management
-- Implement `ClaimDAO` - claim submission, status tracking
-- Create MySQL schema with tables: `users`, `items`, `categories`, `locations`, `claims`, `matches`
-
-### Phase 2: Controller Logic
-- `LoginController` - authentication flow, role-based access
-- `ItemController` - reporting lost/found items, item search
-- `ClaimController` - claim submission, administrator review flow
-
-### Phase 3: GUI Development
-- Extend `LoginFrame` with proper login form
-- Create `ItemReportFrame` - form for reporting lost/found items
-- Create `MatchingFrame` - display potential matches with scores
-- Create `ClaimFrame` - submit claims with verification answers
-- Create `AdminDashboardFrame` - view/review claims, manage users
-
-### Phase 4: Matching Algorithm
-- Implement matching logic in `Match` class or dedicated service
-- Consider factors: category match, location proximity, date proximity, description similarity
-- Score calculation between 0-100%
-
-### Phase 5: Notifications & Email
-- Implement `Notification` class for in-system alerts
-- Add email notifications for claim status updates
-
----
-
 ## Project Conventions
-
 - **Package**: `Models`, `DAO`, `Controllers`, `Database`, `Views`
 - **Naming**: CamelCase for classes, enums in PascalCase where applicable
 - **Database**: MySQL with JDBC connectivity
 - **GUI**: Java Swing (NetBeans Form format)
 - **Build**: Apache Ant with `build.xml`
-
 ---
-
-## Author
-
-This project is designed for **USIU Africa** as a lost and found system tracker for students and staff.
