@@ -4,10 +4,23 @@
  */
 package Main;
 
+import Views.LoginFrame;
+import javax.swing.SwingUtilities;
+import utils.AppTheme;
+
 /**
  *
  * @author kiboi
  */
 public class Main {
-    
+
+    public static void main(String[] args) {
+        AppTheme.initialize();
+
+        SwingUtilities.invokeLater(() -> {
+            LoginFrame login = new LoginFrame();
+            login.setVisible(true);
+        });
+    }
+
 }

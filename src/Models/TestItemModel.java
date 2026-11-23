@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  * @author kiboi
  */
 public class TestItemModel {
+
     public static void main(String[] args) {
         Category electronics = new Category(
                 1,
@@ -25,8 +26,8 @@ public class TestItemModel {
                 "Library",
                 "Main Library Building"
         );
-        
-         Location cafeteria = new Location(
+
+        Location cafeteria = new Location(
                 2,
                 "Cafeteria",
                 "Student Centre"
@@ -58,8 +59,8 @@ public class TestItemModel {
                 "Small scratch on the back cover",
                 new BigDecimal("2000.00")
         );
-        
-         FoundItem foundItem = new FoundItem(
+
+        FoundItem foundItem = new FoundItem(
                 102,
                 "Black Samsung Phone",
                 "Samsung smartphone found on a table",
@@ -74,38 +75,28 @@ public class TestItemModel {
                 "What is the phone wallpaper?",
                 "A football stadium"
         );
-         
+
         System.out.println("LOST ITEM");
         System.out.println(lostItem.getSummary());
-        
+
         System.out.println("FOUND ITEM");
         System.out.println(foundItem.getSummary());
-        
+
         System.out.println("STATUS UPDATE");
         lostItem.changeStatus(ItemStatus.MATCHED);
         System.out.println("Updated Status: " + lostItem.getStatus());
-        
+
         System.out.println("VERIFICATION QUESTION");
         System.out.println("Correct Answer: " + foundItem.verifyAnswer("A football stadium"));
-        
+
         System.out.println("Incorrect Answer " + foundItem.verifyAnswer("A red car"));
-        
+
         Item[] items = {lostItem, foundItem};
 
         for (Item item : items) {
             System.out.println(item.getClass().getSimpleName() + ": " + item.getTitle());
-        }      
-        
-        
-    }    
-        
-        
-}
-        
-        
-        
-        
-        
-        
-    
+        }
 
+    }
+
+}

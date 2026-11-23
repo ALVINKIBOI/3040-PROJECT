@@ -9,6 +9,7 @@ package Models;
  * @author kiboi
  */
 public class Category {
+
     private int categoryID;
     private String categoryName;
     private String description;
@@ -21,9 +22,8 @@ public class Category {
         this.categoryName = categoryName;
         this.description = description;
     }
-    
-    //Getters and Setters
 
+    //Getters and Setters
     public int getCategoryID() {
         return categoryID;
     }
@@ -47,10 +47,10 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return categoryName;
     }
-    
+
 }

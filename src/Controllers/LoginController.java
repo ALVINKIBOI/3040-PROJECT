@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controllers;
+import Models.ItemReport;
+import Service.ItemService;
 
 /**
  *
@@ -10,4 +12,16 @@ package Controllers;
  */
 public class LoginController {
     
+    private final ItemService itemService =
+            new ItemService();
+
+    public int submitReport(
+            ItemReport data,
+            char[] verificationAnswer)
+            throws Exception {
+
+        return itemService.createReport(
+            data, verificationAnswer
+        );
+    }
 }

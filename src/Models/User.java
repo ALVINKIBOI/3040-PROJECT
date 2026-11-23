@@ -9,6 +9,7 @@ package Models;
  * @author kiboi
  */
 public abstract class User {
+
     private int userID;
     private String fullName;
     private String email;
@@ -16,16 +17,16 @@ public abstract class User {
     private String usiuID;
     private String phone;
     private boolean isActive;
-    
+
     //current login state
     private boolean loggedIn;
 
     //consructor
     public User() {
-        this.isActive= true;
+        this.isActive = true;
         this.loggedIn = false;
     }
-    
+
     //parametarized constructor
     public User(int userID, String fullName, String email, String passwordHash, String usiuID, String phone, boolean isActive) {
         this.userID = userID;
@@ -37,7 +38,7 @@ public abstract class User {
         this.isActive = isActive;
         this.loggedIn = false;
     }
-    
+
     //getters and setters
     public int getUserID() {
         return userID;
@@ -93,8 +94,8 @@ public abstract class User {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-        
-        if(!isActive){
+
+        if (!isActive) {
             loggedIn = false;
         }
     }
@@ -104,34 +105,31 @@ public abstract class User {
     }
 
     //login method
-    public boolean login(){
-        if(isActive){
+    public boolean login() {
+        if (isActive) {
             loggedIn = true;
             return true;
         }
         return false;
     }
-    
+
     //logout method
-    public void logout(){
+    public void logout() {
         loggedIn = false;
     }
-    
+
     //Update user profile
-    public void updateProfile(String fullname, String phone){
+    public void updateProfile(String fullname, String phone) {
         this.fullName = fullname;
         this.phone = phone;
     }
-    
+
     //Abstract method implemented by subclass
-    public abstract  String getRole();
-    
+    public abstract String getRole();
+
     @Override
-    public String toString(){
-                return "User ID: " + userID + "\nName: " + fullName+  "\nUSIU ID: " + usiuID + "\nEmail: " + email + "\nPhone: " + phone + "\nRole: " + getRole() + "\nActive: " + isActive;
+    public String toString() {
+        return "User ID: " + userID + "\nName: " + fullName + "\nUSIU ID: " + usiuID + "\nEmail: " + email + "\nPhone: " + phone + "\nRole: " + getRole() + "\nActive: " + isActive;
     }
 
-   
-    
-    
 }

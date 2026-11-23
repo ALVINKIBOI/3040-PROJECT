@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
  * @author kiboi
  */
 public class TestUserModel {
+
     public static void main(String[] args) {
         //Create Student
-         Student student = new Student(
-                 1,
+        Student student = new Student(
+                1,
                 "John Kamau",
                 "USIU001",
                 "john@usiu.ac.ke",
@@ -24,9 +25,9 @@ public class TestUserModel {
                 "Computer Science",
                 2
         );
-         
+
         //Staff
-         StaffMember staff = new StaffMember(
+        StaffMember staff = new StaffMember(
                 2,
                 "Peter Otieno",
                 "USIU002",
@@ -49,54 +50,53 @@ public class TestUserModel {
                 "Senior Administrator",
                 "Student Affairs"
         );
-        
-        User[] users = {student,staff,admin};
+
+        User[] users = {student, staff, admin};
         System.out.println("System Users");
-        
-        for(User user: users){
+
+        for (User user : users) {
             System.out.println(user);
         }
-        
+
         //Test Login and logout
         System.out.println("LOGIN TEST");
-        
+
         if (student.login()) {
-            System.out.println("Student Login successfull");       
+            System.out.println("Student Login successfull");
         }
-        
+
         student.logout();
         System.out.println("Student Logged out");
-        
+
         //Profile Update
         student.updateProfile("John Kamau Updated", "0798765432");
-        
+
         System.out.println("UPDATED PROFILE");
         System.out.println(student);
-        
+
         //Admin operations
         System.out.println("ADMIN OPERATIONS");
         admin.approveClaim();
         admin.rejectClaim();
         admin.manageUsers();
         admin.generateReport();
-        
+
         System.out.println("SYSTEM USERS");
-        for (User user: users){
+        for (User user : users) {
             System.out.println("Name: " + user.getFullName());
-            System.out.println("Role: " + user.getRole());  
+            System.out.println("Role: " + user.getRole());
         }
-        
+
         //Create a Category
         Category category = new Category(
-                 1,
+                1,
                 "Electronics",
                 "Electronic devices and accessories"
-         );
-             
+        );
+
         System.out.println("CATEGORY");
         System.out.println(category);
 
-
     }
-    
+
 }
