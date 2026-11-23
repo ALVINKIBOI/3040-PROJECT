@@ -4,19 +4,53 @@
  */
 package Views;
 
+import Controllers.AuthController;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import Models.AuthUser;
+
 /**
  *
  * @author kiboi
  */
 public class LoginFrame extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFrame.class.getName());
+    private final AuthController authController
+            = new AuthController();
 
     /**
      * Creates new form LoginFrame
      */
     public LoginFrame() {
         initComponents();
+
+        setLocationRelativeTo(null);
+
+        pnlBranding.setBackground(
+                utils.AppTheme.YELLOW
+        );
+
+        pnlLogin.setBackground(
+                java.awt.Color.WHITE
+        );
+
+        pnlLoginForm.setBackground(
+                java.awt.Color.WHITE
+        );
+
+        utils.AppTheme.styleInput(txtEmail);
+        utils.AppTheme.styleInput(txtPassWord);
+
+        utils.AppTheme.stylePrimaryButton(btnLogin);
+        utils.AppTheme.styleLinkButton(btnRegister);
+
+        lblError.setForeground(utils.AppTheme.ERROR);
+        lblError.setText(" ");
+
+        getRootPane().setDefaultButton(btnLogin);
     }
 
     /**
@@ -28,21 +62,334 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlMain = new javax.swing.JPanel();
+        pnlLogin = new javax.swing.JPanel();
+        pnlLoginForm = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
+        lblSubtitle = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        lblPassword = new javax.swing.JLabel();
+        txtPassWord = new javax.swing.JPasswordField();
+        cckShowPassword = new javax.swing.JCheckBox();
+        lblError = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
+        lblRegisterPrompt = new javax.swing.JLabel();
+        btnRegister = new javax.swing.JButton();
+        pnlBranding = new javax.swing.JPanel();
+        lblProjectName = new javax.swing.JLabel();
+        lblProjectHeading = new javax.swing.JLabel();
+        lblProjectSubheading = new javax.swing.JLabel();
+        lblProjectDescription = new javax.swing.JLabel();
+        lblProjectFooter = new javax.swing.JLabel();
+        lbLogo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("USIU LOST AND FOUND");
+        setPreferredSize(new java.awt.Dimension(1000, 650));
+
+        pnlMain.setBackground(new java.awt.Color(255, 255, 255));
+        pnlMain.setLayout(new java.awt.BorderLayout());
+
+        pnlLogin.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlLoginForm.setBackground(new java.awt.Color(255, 255, 255));
+        pnlLoginForm.setPreferredSize(new java.awt.Dimension(360, 100));
+
+        lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblWelcome.setText("Welcome Back");
+
+        lblSubtitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        lblSubtitle.setText("Sign In to your Lost And Found Account");
+
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblEmail.setText("Email Address");
+
+        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblPassword.setText("Password");
+
+        cckShowPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cckShowPassword.setText("Show Password");
+        cckShowPassword.addActionListener(this::cckShowPasswordActionPerformed);
+
+        lblError.setText("..");
+
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLogin.setText("Sign In");
+        btnLogin.addActionListener(this::btnLoginActionPerformed);
+
+        lblRegisterPrompt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblRegisterPrompt.setText("Don't Have an Account?");
+
+        btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegister.setText("Create Account");
+        btnRegister.addActionListener(this::btnRegisterActionPerformed);
+
+        javax.swing.GroupLayout pnlLoginFormLayout = new javax.swing.GroupLayout(pnlLoginForm);
+        pnlLoginForm.setLayout(pnlLoginFormLayout);
+        pnlLoginFormLayout.setHorizontalGroup(
+            pnlLoginFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginFormLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(pnlLoginFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogin)
+                    .addComponent(btnRegister)
+                    .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cckShowPassword)
+                    .addComponent(lblPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlLoginFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSubtitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRegisterPrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        pnlLoginFormLayout.setVerticalGroup(
+            pnlLoginFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginFormLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblSubtitle)
+                .addGap(25, 25, 25)
+                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblPassword)
+                .addGap(15, 15, 15)
+                .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(cckShowPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLogin)
+                .addGap(18, 18, 18)
+                .addComponent(lblRegisterPrompt)
+                .addGap(18, 18, 18)
+                .addComponent(btnRegister)
+                .addContainerGap(77, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout pnlLoginLayout = new javax.swing.GroupLayout(pnlLogin);
+        pnlLogin.setLayout(pnlLoginLayout);
+        pnlLoginLayout.setHorizontalGroup(
+            pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlLoginForm, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlLoginLayout.setVerticalGroup(
+            pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(pnlLoginForm, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlMain.add(pnlLogin, java.awt.BorderLayout.CENTER);
+
+        pnlBranding.setBackground(new java.awt.Color(255, 255, 0));
+        pnlBranding.setPreferredSize(new java.awt.Dimension(540, 550));
+
+        lblProjectName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblProjectName.setText("USIU LOST AND FOUND SYSTEM");
+
+        lblProjectHeading.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        lblProjectHeading.setText("Connecting people");
+
+        lblProjectSubheading.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        lblProjectSubheading.setText("with their belongings");
+
+        lblProjectDescription.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblProjectDescription.setText("Report lost items and discover possible matches");
+
+        lblProjectFooter.setText("A simplified way to find lost items");
+
+        lbLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/USIU_Africa_Logo.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlBrandingLayout = new javax.swing.GroupLayout(pnlBranding);
+        pnlBranding.setLayout(pnlBrandingLayout);
+        pnlBrandingLayout.setHorizontalGroup(
+            pnlBrandingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBrandingLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(pnlBrandingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProjectFooter, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblProjectSubheading, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblProjectDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblProjectHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBrandingLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblProjectName)
+                .addGap(25, 25, 25))
+        );
+        pnlBrandingLayout.setVerticalGroup(
+            pnlBrandingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBrandingLayout.createSequentialGroup()
+                .addGroup(pnlBrandingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBrandingLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlBrandingLayout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(lblProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addComponent(lblProjectHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblProjectSubheading, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblProjectDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(lblProjectFooter, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+
+        pnlMain.add(pnlBranding, java.awt.BorderLayout.WEST);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cckShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cckShowPasswordActionPerformed
+        // TODO add your handling code here:
+        if (cckShowPassword.isSelected()) {
+            txtPassWord.setEchoChar((char) 0);
+        } else {
+            txtPassWord.setEchoChar('\u2022');
+        }
+
+    }//GEN-LAST:event_cckShowPasswordActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        String email = txtEmail.getText().trim();
+        char[] password = txtPassWord.getPassword();
+
+        if (email.isEmpty()
+                || password.length == 0) {
+
+            Arrays.fill(password, '\0');
+
+            lblError.setText(
+                    "Please enter email and password."
+            );
+
+            return;
+        }
+
+        btnLogin.setEnabled(false);
+        lblError.setText("Signing in...");
+
+        SwingWorker<AuthUser, Void> worker
+                = new SwingWorker<>() {
+
+            @Override
+            protected AuthUser doInBackground()
+                    throws Exception {
+
+                try {
+                    return authController.login(
+                            email, password
+                    );
+
+                } finally {
+                    Arrays.fill(password, '\0');
+                }
+            }
+
+            @Override
+            protected void done() {
+
+                btnLogin.setEnabled(true);
+
+                try {
+                    AuthUser user = get();
+
+                    lblError.setText(" ");
+                    txtPassWord.setText("");
+
+                    JOptionPane.showMessageDialog(
+                            LoginFrame.this,
+                            "Welcome, "
+                            + user.fullName()
+                            + "!\nRole: "
+                            + user.role(),
+                            "Login Successful",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    Dashboard dashboard
+                            = new Dashboard(user);
+
+                    dashboard.setLocationRelativeTo(null);
+                    dashboard.setVisible(true);
+
+                    LoginFrame.this.dispose();
+
+                } catch (InterruptedException ex) {
+
+                    Thread.currentThread().interrupt();
+
+                    lblError.setText(
+                            "Login was interrupted."
+                    );
+
+                } catch (ExecutionException ex) {
+
+                    Throwable cause = ex.getCause();
+
+                    if (cause instanceof IllegalArgumentException) {
+
+                        lblError.setText(
+                                cause.getMessage()
+                        );
+
+                    } else {
+
+                        lblError.setText(
+                                "Login unavailable. Try again."
+                        );
+
+                        cause.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        worker.execute();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        // TODO add your handling code here:
+        RegisterForm register = new RegisterForm();
+        register.setLocationRelativeTo(null);
+        register.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +417,26 @@ public class LoginFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JCheckBox cckShowPassword;
+    private javax.swing.JLabel lbLogo;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblError;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblProjectDescription;
+    private javax.swing.JLabel lblProjectFooter;
+    private javax.swing.JLabel lblProjectHeading;
+    private javax.swing.JLabel lblProjectName;
+    private javax.swing.JLabel lblProjectSubheading;
+    private javax.swing.JLabel lblRegisterPrompt;
+    private javax.swing.JLabel lblSubtitle;
+    private javax.swing.JLabel lblWelcome;
+    private javax.swing.JPanel pnlBranding;
+    private javax.swing.JPanel pnlLogin;
+    private javax.swing.JPanel pnlLoginForm;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JPasswordField txtPassWord;
     // End of variables declaration//GEN-END:variables
 }
