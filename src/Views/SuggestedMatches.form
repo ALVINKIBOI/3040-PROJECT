@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1100, 1100]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -202,6 +199,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="My Claims"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMyClaimsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnNotifications">
           <Properties>
@@ -210,6 +210,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Notifications"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNotificationsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnManageUsers">
           <Properties>
@@ -218,6 +221,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Manage Users"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageUsersActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnReviewClaims">
           <Properties>
@@ -237,6 +243,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Categories And Locations"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageCatalogActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnLogOut">
           <Properties>
@@ -385,7 +394,7 @@
                       <Component id="jLabel16" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblPageDescription" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="86" max="32767" attributes="0"/>
+                      <EmptySpace pref="374" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

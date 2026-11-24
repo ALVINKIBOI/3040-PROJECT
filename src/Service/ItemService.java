@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Service;
+
 import DAO.ItemDAO;
 import Models.ItemReport;
 import java.io.File;
@@ -15,13 +16,14 @@ import java.util.Arrays;
 import java.util.UUID;
 import javax.imageio.ImageIO;
 import utils.PasswordUtils;
+import utils.VerificationUtils;
 
 /**
  *
  * @author kiboi
  */
 public class ItemService {
-    
+
     private final ItemDAO itemDAO = new ItemDAO();
 
     public int createReport(
@@ -34,8 +36,27 @@ public class ItemService {
         String verificationHash = null;
 
         if ("FOUND".equals(data.itemType())) {
-            verificationHash =
-                PasswordUtils.hashPassword(verificationAnswer);
+
+            char[] normalizedAnswer
+                    = VerificationUtils.normalize(
+                            verificationAnswer
+                    );
+
+            try {
+                if (normalizedAnswer.length == 0) {
+                    throw new IllegalArgumentException(
+                            "Verification answer is required."
+                    );
+                }
+
+                verificationHash
+                        = PasswordUtils.hashPassword(
+                                normalizedAnswer
+                        );
+
+            } finally {
+                Arrays.fill(normalizedAnswer, '\0');
+            }
         }
 
         Path savedPhoto = null;
@@ -46,11 +67,11 @@ public class ItemService {
             }
 
             return itemDAO.insertReport(
-                data,
-                savedPhoto == null
-                    ? null
-                    : savedPhoto.toString(),
-                verificationHash
+                    data,
+                    savedPhoto == null
+                            ? null
+                            : savedPhoto.toString(),
+                    verificationHash
             );
 
         } catch (Exception ex) {
@@ -82,7 +103,7 @@ public class ItemService {
                 || data.locationId() <= 0) {
 
             throw new IllegalArgumentException(
-                "Valid user, category and location are required."
+                    "Valid user, category and location are required."
             );
         }
 
@@ -90,7 +111,7 @@ public class ItemService {
                 && !"FOUND".equals(data.itemType())) {
 
             throw new IllegalArgumentException(
-                "Invalid report type."
+                    "Invalid report type."
             );
         }
 
@@ -100,7 +121,7 @@ public class ItemService {
                 || data.description().isBlank()) {
 
             throw new IllegalArgumentException(
-                "Title and description are required."
+                    "Title and description are required."
             );
         }
 
@@ -108,7 +129,7 @@ public class ItemService {
                 || data.dateOccurred().isAfter(LocalDate.now())) {
 
             throw new IllegalArgumentException(
-                "Enter a valid date that is not in the future."
+                    "Enter a valid date that is not in the future."
             );
         }
 
@@ -118,13 +139,13 @@ public class ItemService {
 
             if (reward != null
                     && (reward.signum() < 0
-                        || reward.compareTo(
+                    || reward.compareTo(
                             new BigDecimal("99999999.99")
-                        ) > 0
-                        || reward.scale() > 2)) {
+                    ) > 0
+                    || reward.scale() > 2)) {
 
                 throw new IllegalArgumentException(
-                    "Enter a valid reward amount."
+                        "Enter a valid reward amount."
                 );
             }
 
@@ -138,7 +159,7 @@ public class ItemService {
                     || answer.length == 0) {
 
                 throw new IllegalArgumentException(
-                    "Storage and verification details are required."
+                        "Storage and verification details are required."
                 );
             }
         }
@@ -158,26 +179,26 @@ public class ItemService {
         }
 
         Path directory = Paths.get(
-            System.getProperty("user.home"),
-            "USIULostFound",
-            "photos"
+                System.getProperty("user.home"),
+                "USIULostFound",
+                "photos"
         );
 
         Files.createDirectories(directory);
 
-        String filename =
-            UUID.randomUUID().toString() + ".png";
+        String filename
+                = UUID.randomUUID().toString() + ".png";
 
         Path destination = directory.resolve(filename);
 
         try {
             boolean written = ImageIO.write(
-                image, "png", destination.toFile()
+                    image, "png", destination.toFile()
             );
 
             if (!written) {
                 throw new IOException(
-                    "Unable to encode photo."
+                        "Unable to encode photo."
                 );
             }
 
@@ -188,5 +209,5 @@ public class ItemService {
             throw ex;
         }
     }
-    
+
 }

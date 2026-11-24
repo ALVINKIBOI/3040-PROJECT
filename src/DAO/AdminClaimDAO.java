@@ -6,7 +6,7 @@ package DAO;
 
 import Database.DataBaseConnection;
 import Models.PendingClaimData;
-
+import DAO.NotificationDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +150,50 @@ public class AdminClaimDAO {
                         );
                     }
                 }
+
+                String findClaimantSql = """
+    SELECT claimant_id
+    FROM claims
+    WHERE claim_id = ?
+    """;
+
+                int claimantId;
+
+                try (PreparedStatement ps
+                        = conn.prepareStatement(findClaimantSql)) {
+
+                    ps.setInt(1, claimId);
+
+                    try (ResultSet rs = ps.executeQuery()) {
+
+                        if (!rs.next()) {
+                            throw new SQLException(
+                                    "Claimant not found."
+                            );
+                        }
+
+                        claimantId = rs.getInt("claimant_id");
+                    }
+                }
+
+                NotificationDAO notificationDAO
+                        = new NotificationDAO();
+
+                String notificationMessage = approve
+                        ? "Your ownership claim #" + claimId
+                        + " has been APPROVED. "
+                        + "Contact the lost and found office "
+                        + "to arrange item collection."
+                        : "Your ownership claim #" + claimId
+                        + " has been REJECTED. "
+                        + "Open My Claims to view the decision.";
+
+                notificationDAO.insertNotification(
+                        conn,
+                        claimantId,
+                        notificationMessage,
+                        approve ? "CLAIM_APPROVED" : "CLAIM_REJECTED"
+                );
 
                 conn.commit();
 

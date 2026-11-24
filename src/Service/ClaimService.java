@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import utils.PasswordUtils;
+import DAO.NotificationDAO;
+import utils.VerificationUtils;
 
 /**
  *
@@ -118,6 +120,22 @@ public class ClaimService {
                                     item.verificationHash()
                             );
 
+                    if (!verified) {
+
+                        char[] normalizedAnswer
+                                = VerificationUtils.normalize(answer);
+
+                        try {
+                            verified = PasswordUtils.verifyPassword(
+                                    normalizedAnswer,
+                                    item.verificationHash()
+                            );
+
+                        } finally {
+                            Arrays.fill(normalizedAnswer, '\0');
+                        }
+                    }
+
                     int claimId = dao.insertClaim(
                             conn,
                             claimantId,
@@ -128,6 +146,27 @@ public class ClaimService {
 
                     dao.markClaimPending(
                             conn, foundItemId
+                    );
+
+                    NotificationDAO notificationDAO
+                            = new NotificationDAO();
+
+                    notificationDAO.insertNotification(
+                            conn,
+                            claimantId,
+                            "Your claim #" + claimId
+                            + " has been submitted and is awaiting "
+                            + "administrator review.",
+                            "CLAIM_SUBMITTED"
+                    );
+
+                    notificationDAO.insertNotification(
+                            conn,
+                            item.finderId(),
+                            "A user has submitted ownership claim #"
+                            + claimId
+                            + " for an item you reported.",
+                            "CLAIM_RECEIVED"
                     );
 
                     conn.commit();

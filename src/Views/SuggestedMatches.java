@@ -51,7 +51,8 @@ public class SuggestedMatches extends javax.swing.JFrame {
                 btnNotifications,
                 btnManageUsers,
                 btnReviewClaims,
-                btnManageCatalog
+                btnManageCatalog,
+                btnSuggestedMatches
         );
         AppTheme.styleNavButton(btnDashboard);
         AppTheme.styleNavButton(btnReportLost);
@@ -109,6 +110,7 @@ public class SuggestedMatches extends javax.swing.JFrame {
         }
 
         this.currentUser = user;
+        configureUserInterface();
         this.onReturnToDashboard
                 = onReturnToDashboard;
 
@@ -167,7 +169,6 @@ public class SuggestedMatches extends javax.swing.JFrame {
         lblMatchError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1100, 1100));
 
         pnlSideBar.setBackground(new java.awt.Color(255, 255, 0));
         pnlSideBar.setPreferredSize(new java.awt.Dimension(400, 11100));
@@ -202,12 +203,15 @@ public class SuggestedMatches extends javax.swing.JFrame {
 
         btnMyClaims.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMyClaims.setText("My Claims");
+        btnMyClaims.addActionListener(this::btnMyClaimsActionPerformed);
 
         btnNotifications.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNotifications.setText("Notifications");
+        btnNotifications.addActionListener(this::btnNotificationsActionPerformed);
 
         btnManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageUsers.setText("Manage Users");
+        btnManageUsers.addActionListener(this::btnManageUsersActionPerformed);
 
         btnReviewClaims.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnReviewClaims.setText("Review Claims");
@@ -215,6 +219,7 @@ public class SuggestedMatches extends javax.swing.JFrame {
 
         btnManageCatalog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageCatalog.setText("Categories And Locations");
+        btnManageCatalog.addActionListener(this::btnManageCatalogActionPerformed);
 
         btnLogOut.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
@@ -454,7 +459,7 @@ public class SuggestedMatches extends javax.swing.JFrame {
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPageDescription)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -637,6 +642,96 @@ public class SuggestedMatches extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadSuggestedMatches();
     }//GEN-LAST:event_btnRefreshMatchesActionPerformed
+
+    private void btnMyClaimsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClaimsActionPerformed
+        // TODO add your handling code here:
+        if (currentUser == null) {
+            return;
+        }
+
+        MyClaim claimForm
+                = new MyClaim(
+                        currentUser,
+                        () -> {
+                            this.setVisible(true);
+                            loadDashboardStatistics();
+                        }
+                );
+
+        claimForm.setLocationRelativeTo(this);
+        claimForm.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnMyClaimsActionPerformed
+
+    private void btnNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationsActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null) {
+            return;
+        }
+
+        Notifications form = new Notifications(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnNotificationsActionPerformed
+
+    private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Administrator access required."
+            );
+            return;
+        }
+
+        ManageUsers form = new ManageUsers(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageUsersActionPerformed
+
+    private void btnManageCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCatalogActionPerformed
+        // TODO add your handling code here:
+        
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+            return;
+        }
+
+        ManageCatalogAndLocation form = new ManageCatalogAndLocation(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageCatalogActionPerformed
 
     /**
      * @param args the command line arguments
@@ -916,6 +1011,20 @@ public class SuggestedMatches extends javax.swing.JFrame {
 
     private void loadDashboardStatistics() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void configureUserInterface() {
+
+        boolean isAdmin
+                = "ADMIN".equals(currentUser.role());
+
+        // Admin-specific navigation
+        btnManageUsers.setVisible(isAdmin);
+        btnReviewClaims.setVisible(isAdmin);
+        btnManageCatalog.setVisible(isAdmin);
+
+        pnlSideBar.revalidate();
+        pnlSideBar.repaint();
     }
 
 }
