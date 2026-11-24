@@ -147,6 +147,7 @@ public class MatchingDAO {
 
             conn.setAutoCommit(false);
 
+            int insertedRows;
             try {
                 try (PreparedStatement ps
                         = conn.prepareStatement(insertSql)) {
@@ -154,7 +155,8 @@ public class MatchingDAO {
                     ps.setInt(1, lostId);
                     ps.setInt(2, foundId);
                     ps.setDouble(3, score);
-                    ps.executeUpdate();
+
+                    insertedRows = ps.executeUpdate();
                 }
 
                 try (PreparedStatement ps
@@ -183,6 +185,44 @@ public class MatchingDAO {
                 if (active) {
                     markItemMatched(conn, lostId);
                     markItemMatched(conn, foundId);
+
+                    // Notify only when a NEW match was inserted.
+                    if (insertedRows == 1) {
+
+                        String ownerSql = """
+            SELECT user_id
+            FROM items
+            WHERE item_id = ?
+              AND item_type = 'LOST'
+              AND is_deleted = FALSE
+            """;
+
+                        try (PreparedStatement ps
+                                = conn.prepareStatement(ownerSql)) {
+
+                            ps.setInt(1, lostId);
+
+                            try (ResultSet rs = ps.executeQuery()) {
+
+                                if (rs.next()) {
+
+                                    int recipientId
+                                            = rs.getInt("user_id");
+
+                                    new NotificationDAO()
+                                            .insertNotification(
+                                                    conn,
+                                                    recipientId,
+                                                    "A possible match has been "
+                                                    + "found for your lost item. "
+                                                    + "Open Suggested Matches "
+                                                    + "to review it.",
+                                                    "NEW_MATCH"
+                                            );
+                                }
+                            }
+                        }
+                    }
                 }
 
                 conn.commit();

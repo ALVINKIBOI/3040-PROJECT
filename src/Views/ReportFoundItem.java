@@ -53,7 +53,8 @@ public class ReportFoundItem extends javax.swing.JFrame {
                 btnNotifications,
                 btnManageUsers,
                 btnReviewClaims,
-                btnManageCatalog
+                btnManageCatalog,
+                btnSuggestedMatches
         );
         AppTheme.styleNavButton(btnDashboard);
         AppTheme.styleNavButton(btnReportLost);
@@ -188,15 +189,19 @@ public class ReportFoundItem extends javax.swing.JFrame {
 
         btnNotifications.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNotifications.setText("Notifications");
+        btnNotifications.addActionListener(this::btnNotificationsActionPerformed);
 
         btnManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageUsers.setText("Manage Users");
+        btnManageUsers.addActionListener(this::btnManageUsersActionPerformed);
 
         btnReviewClaims.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnReviewClaims.setText("Review Claims");
+        btnReviewClaims.addActionListener(this::btnReviewClaimsActionPerformed);
 
         btnManageCatalog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageCatalog.setText("Categories And Locations");
+        btnManageCatalog.addActionListener(this::btnManageCatalogActionPerformed);
 
         btnLogOut.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
@@ -694,6 +699,50 @@ public class ReportFoundItem extends javax.swing.JFrame {
 
     private void btnMyClaimsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClaimsActionPerformed
         // TODO add your handling code here:
+        if (currentUser == null) {
+            return;
+        }
+
+        MyClaim claimForm
+                = new MyClaim(
+                        currentUser,
+                        () -> {
+                            this.setVisible(true);
+                            loadDashboardStatistics();
+                        }
+                );
+
+        claimForm.setLocationRelativeTo(this);
+        claimForm.setVisible(true);
+
+        this.setVisible(false);
+
+    }//GEN-LAST:event_btnMyClaimsActionPerformed
+
+    private void btnSuggestedMatchesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuggestedMatchesActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null) {
+            return;
+        }
+
+        SuggestedMatches form
+                = new SuggestedMatches(
+                        currentUser,
+                        () -> {
+                            this.setVisible(true);
+                            loadDashboardStatistics();
+                        }
+                );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSuggestedMatchesActionPerformed
+
+    private void btnReviewClaimsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewClaimsActionPerformed
+        // TODO add your handling code here:
         if (currentUser == null
                 || !"ADMIN".equals(currentUser.role())) {
 
@@ -719,29 +768,77 @@ public class ReportFoundItem extends javax.swing.JFrame {
         reviewForm.setVisible(true);
 
         this.setVisible(false);
-    }//GEN-LAST:event_btnMyClaimsActionPerformed
 
-    private void btnSuggestedMatchesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuggestedMatchesActionPerformed
+    }//GEN-LAST:event_btnReviewClaimsActionPerformed
+
+    private void btnNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationsActionPerformed
         // TODO add your handling code here:
 
         if (currentUser == null) {
             return;
         }
 
-        SuggestedMatches form
-                = new SuggestedMatches(
-                        currentUser,
-                        () -> {
-                            this.setVisible(true);
-                            loadDashboardStatistics();
-                        }
-                );
+        Notifications form = new Notifications(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
 
         form.setLocationRelativeTo(this);
         form.setVisible(true);
 
         this.setVisible(false);
-    }//GEN-LAST:event_btnSuggestedMatchesActionPerformed
+    }//GEN-LAST:event_btnNotificationsActionPerformed
+
+    private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Administrator access required."
+            );
+            return;
+        }
+
+        ManageUsers form = new ManageUsers(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageUsersActionPerformed
+
+    private void btnManageCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCatalogActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+            return;
+        }
+
+        ManageCatalogAndLocation form = new ManageCatalogAndLocation(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageCatalogActionPerformed
 
     /**
      * @param args the command line arguments

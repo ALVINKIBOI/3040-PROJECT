@@ -491,6 +491,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="My Reports"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMyReportsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnMyClaims">
           <Properties>
@@ -499,6 +502,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="My Claims"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMyClaimsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnNotifications">
           <Properties>
@@ -507,6 +513,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Notifications"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNotificationsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnManageUsers">
           <Properties>
@@ -515,6 +524,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Manage Users"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageUsersActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnReviewClaims">
           <Properties>
@@ -534,6 +546,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Categories And Locations"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageCatalogActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnLogOut">
           <Properties>

@@ -57,7 +57,9 @@ public class BrowseItem extends javax.swing.JFrame {
                 btnNotifications,
                 btnManageUsers,
                 btnReviewClaims,
-                btnManageCatalog
+                btnManageCatalog,
+                btnSuggestedItems
+              
         );
         AppTheme.styleNavButton(btnDashboard);
         AppTheme.styleNavButton(btnReportLost);
@@ -220,9 +222,11 @@ public class BrowseItem extends javax.swing.JFrame {
 
         btnMyClaims.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMyClaims.setText("My Claims");
+        btnMyClaims.addActionListener(this::btnMyClaimsActionPerformed);
 
         btnNotifications.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNotifications.setText("Notifications");
+        btnNotifications.addActionListener(this::btnNotificationsActionPerformed);
 
         btnManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageUsers.setText("Manage Users");
@@ -230,9 +234,11 @@ public class BrowseItem extends javax.swing.JFrame {
 
         btnReviewClaims.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnReviewClaims.setText("Review Claims");
+        btnReviewClaims.addActionListener(this::btnReviewClaimsActionPerformed);
 
         btnManageCatalog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnManageCatalog.setText("Categories And Locations");
+        btnManageCatalog.addActionListener(this::btnManageCatalogActionPerformed);
 
         btnLogOut.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
@@ -752,29 +758,26 @@ public class BrowseItem extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (currentUser == null
                 || !"ADMIN".equals(currentUser.role())) {
-
             JOptionPane.showMessageDialog(
                     this,
-                    "Administrator access required.",
-                    "Access Denied",
-                    JOptionPane.WARNING_MESSAGE
+                    "Administrator access required."
             );
             return;
         }
 
-        ReviewClaim reviewForm
-                = new ReviewClaim(
-                        currentUser,
-                        () -> {
-                            this.setVisible(true);
-                            loadDashboardStatistics();
-                        }
-                );
+        ManageUsers form = new ManageUsers(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
 
-        reviewForm.setLocationRelativeTo(this);
-        reviewForm.setVisible(true);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
 
         this.setVisible(false);
+
     }//GEN-LAST:event_btnManageUsersActionPerformed
 
     private void btnSuggestedItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuggestedItemsActionPerformed
@@ -799,30 +802,123 @@ public class BrowseItem extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnSuggestedItemsActionPerformed
 
-        /**
-         * @param args the command line arguments
-         */
-        public static void main(String args[]) {
-            /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-             */
-            try {
-                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-                logger.log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            //</editor-fold>
-
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(() -> new BrowseItem().setVisible(true));
+    private void btnMyClaimsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClaimsActionPerformed
+        // TODO add your handling code here:
+        if (currentUser == null) {
+            return;
         }
+
+        MyClaim claimForm
+                = new MyClaim(
+                        currentUser,
+                        () -> {
+                            this.setVisible(true);
+                            loadDashboardStatistics();
+                        }
+                );
+
+        claimForm.setLocationRelativeTo(this);
+        claimForm.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnMyClaimsActionPerformed
+
+    private void btnNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationsActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null) {
+            return;
+        }
+
+        Notifications form = new Notifications(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnNotificationsActionPerformed
+
+    private void btnReviewClaimsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewClaimsActionPerformed
+        // TODO add your handling code here:
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Administrator access required.",
+                    "Access Denied",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        ReviewClaim reviewForm
+                = new ReviewClaim(
+                        currentUser,
+                        () -> {
+                            this.setVisible(true);
+                            loadDashboardStatistics();
+                        }
+                );
+
+        reviewForm.setLocationRelativeTo(this);
+        reviewForm.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnReviewClaimsActionPerformed
+
+    private void btnManageCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCatalogActionPerformed
+        // TODO add your handling code here:
+
+        if (currentUser == null
+                || !"ADMIN".equals(currentUser.role())) {
+            return;
+        }
+
+        ManageCatalogAndLocation form = new ManageCatalogAndLocation(
+                currentUser,
+                () -> {
+                    this.setVisible(true);
+                    loadDashboardStatistics();
+                }
+        );
+
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnManageCatalogActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new BrowseItem().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrowseItems;
